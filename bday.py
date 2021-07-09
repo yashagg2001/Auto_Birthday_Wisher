@@ -5,11 +5,11 @@ import smtplib
 import os
 os.chdir(r"D:\Projects\Birthday_Wisher")
 
-def notification(name,today,msg):
+def notification(name,today,msg,status):
     from plyer import notification
     import time
     notification.notify(
-        title= f"****Happy Birthday {name}****",
+        title= f"****Happy {status} {name}****",
         message=f"Today is {str(today)}.\nMake sure that your whatsapp web is logged in on your PC.\nThe message that will be sent on his/her whatsapp is:-\n{msg}",
         app_icon ="D:\Projects\Birthday_Wisher\cake.ico",
         timeout= 15
@@ -57,11 +57,11 @@ if __name__ == "__main__":
     for index, item in df.iterrows():
         bday = item['DOB'].strftime("%d-%m")
         if((today == bday) and yearNow not in str(item['Year'])):
-            notification(item['Name'],today,item['Message'])
+            notification(item['Name'],today,item['Message'],item['Status'])
             sendWhatsappMsg(item['Name'],item['Message'])
             # Set Email and Password above, before uncommenting this part
             # if(str(item['Email'])!="nan"):
-            #     sendEmail(item['Email'], f"Happy Birthday {item['Name']}", item['Message']) 
+            #     sendEmail(item['Email'], f"Happy {item['Status']} {item['Name']}", item['Message']) 
             writeInd.append(index)
 
     for i in writeInd:
