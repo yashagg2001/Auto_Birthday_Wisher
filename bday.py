@@ -5,16 +5,16 @@ import smtplib
 import os
 os.chdir(r"D:\Projects\Birthday_Wisher")
 
-def notification(name,today,msg,status):
-    from plyer import notification
+def notifier(name,today,msg,status):
     import time
+    from plyer import notification
     notification.notify(
         title= f"****Happy {status} {name}****",
         message=f"Today is {str(today)}.\nMake sure that your whatsapp web is logged in on your PC.\nThe message that will be sent on his/her whatsapp is:-\n{msg}",
         app_icon ="D:\Projects\Birthday_Wisher\cake.ico",
-        timeout= 15
+        timeout= 18
     )
-    time.sleep(15)
+    time.sleep(18)
 
 #For sending birthday wish by Email using Gmail
 def sendEmail(to, sub, msg):
@@ -30,6 +30,7 @@ def sendEmail(to, sub, msg):
     print(f"Email to {to} sent successfully\nwith subject: {sub} and message is: {msg}\n" )
 
 #For sending birthday wish using Whatsapp
+'''
 def sendWhatsappMsg(name,msg):
     import webbrowser
     import pyautogui
@@ -47,6 +48,25 @@ def sendWhatsappMsg(name,msg):
     pyautogui.typewrite(msg)
     time.sleep(2)
     pyautogui.click(1864,983)
+'''
+def sendWhatsappMsg(mob,msg):
+    import pywhatkit
+    from plyer import notification
+    try:
+        mobile=f'+91{str(mob)}'[0:13]
+        pywhatkit.sendwhatmsg(mobile,f'{str(msg)}',00,2)
+        print('Message sent successfully')
+        notification.notify(
+        title= f"****Whatsapp message sent successfully****",
+        message=f"Congrats, message has been sent.",
+        timeout= 10)
+    except:
+        print("An unexcepted error occured!")
+        notification.notify(
+        title= f"****An unexpected error occured****",
+        message=f"Message hasn't been sent",
+        timeout= 10)
+
 
 if __name__ == "__main__":
     df = pd.read_excel("data.xlsx")
@@ -57,11 +77,11 @@ if __name__ == "__main__":
     for index, item in df.iterrows():
         bday = item['DOB'].strftime("%d-%m")
         if((today == bday) and yearNow not in str(item['Year'])):
-            notification(item['Name'],today,item['Message'],item['Status'])
-            sendWhatsappMsg(item['Name'],item['Message'])
+            notifier(item['Name'],today,item['Message'],item['Status'])
+            sendWhatsappMsg(item['Mobile'],item['Message'])
             # Set Email and Password above, before uncommenting this part
-            # if(str(item['Email'])!="nan"):
-            #     sendEmail(item['Email'], f"Happy {item['Status']} {item['Name']}", item['Message']) 
+            '''if(str(item['Email'])!="nan"):
+                sendEmail(item['Email'], f"Happy {item['Status']} {item['Name']}", item['Message'])''' 
             writeInd.append(index)
 
     for i in writeInd:
