@@ -2,11 +2,11 @@
 I created a python script that will automatically deliver birthday or anniversary messages to my friends or relatives on their special occasion.<br>
 
 `Firstly update and add the important dates in data.xlsx file.`<br>
-# Modules used
+# Libraries used
 1. notification from plyer: `for showing pop up reminder notifications`
 2. smtplib: `for sending emails`
 3. pywhatkit: `for sending whatsapp messages`
-4. other modules: `pandas, numpy, datetime, time, os`
+4. <b>other inbuilt libraries need to be imported</b>: `pandas, numpy, datetime, time, os`
 
 # How it works
 1. Using Task scheduler the python script `bday.py` run automatically every midnight and check if there is any important date. 
